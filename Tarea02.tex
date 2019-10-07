@@ -1,0 +1,168 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\author{Sánchez Sandoval Carlos Alberto}
+\title{\textbf{Robótica Industrial}\\Reporte de la Práctica 02: Elaborar un programa que con dos eslabones realize un movimiento dependiendo de los grados que se introduzcan.}
+\begin{document}
+\maketitle
+
+\begin{flushleft}
+\textbf{Descripción por bloques del código realizado en Matlab:}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{Bloque 1:\\
+prompt = 'Introducir el valor (grados) del ángulo 1:';\\
+angDeg = input (prompt);
+prompt = 'Introducir el valor (grados) del ángulo 2:';\\
+angDeg2 = input (prompt);\\
+prompt = 'Introducir el valor L1:';\\
+L1 = input (prompt);\\
+angRad = deg2rad(angDeg);\\
+prompt = 'Introducir el valor L2:';\\
+L2 = input (prompt);\\
+angRad2 = deg2rad(angDeg2);\\}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{Comentario: Lo que realiza esté bloque es solicitar que se agrege un ángulo y las dimenciones que tendrá tanto L1 como L2.}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{Bloque 2:\\
+function printAxis()\\
+line([-9 9],[0 0],[0 0],'color' ,[1 0 0],'linewidth', 2);\\
+line([0 0],[-9 9],[0 0],'color' ,[0 1 0],'linewidth', 2);\\
+end}
+\end{flushleft}
+\begin{flushleft}
+\textbf{Comentario:Lo que realiza el bloque dos es una configuración de nuestro plano en 2D, sus dimenciones y su color de cada linea representará cada eje que estemos introduciendo.}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{Bloque 3:\\
+p1 =[0 0 0];}
+\end{flushleft}
+\begin{flushleft}
+\textbf{Comentario: Lo que se realiza en el bloque tres es la configuración del punto inicial de nuestros eslabones.}
+\end{flushleft}
+\begin{flushleft}
+\textbf{Bloque 4:\\
+if angDeg mayor \'o igual a 0\\
+    angVec = 0:0.1:angRad\\
+else\\
+    angVec = 0:-0.1:angRad\\
+end
+}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{Comentario: Lo que realiza el bloque cuatro es una comparación, está menciona que si el ángulo que ingresemos es mayor a 0 entonces el eslabon girará al lado contrario de las manecillas del reloj y si este es menor girará al lado contrarío.}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{Bloque 5:\\
+for i=1:length(angVec)\\
+clf\\
+printAxis();\\
+TRz1 = [cos(angVec(i)) -sin(angVec(i)) 0 0; sin(angVec(i)) cos(angVec(i)) 0 0; 0 0 1 0; 0 0 0 1];\\
+TTx1 = [1 0 0 L1; 0 1 0 0; 0 0 1 0; 0 0 0 1];\\
+T1 = TRz1*TTx1;\\
+p2 = T1(1:3,4);\\
+eje\_x\_1 = T1(1:3,1)\\
+eje\_y\_1 = T1(1:3,2)\\
+line([p1(1) p2(1)],[p1(2) p2(2)],[p1(3) p2(3)],'color',[1 1 0],'linewidth',3)\\
+line([p1(1) eje\_x\_1(1)],[p1(2) eje\_x\_1(2)],[p1(3) eje\_x\_1(3)],'color',[1 0 1],'linewidth',3)\\
+line([p1(1) eje\_y\_1(1)],[p1(2) eje\_y\_1(2)],[p1(3) eje\_y\_1(3)],'color',[0.5 0 1],'linewidth',3)\\
+  }
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{TRz2 = [cos(0) -sin(0) 0 0; sin(0) cos(0) 0 0; 0 0 1 0; 0 0 0 1];\\
+TTx2 = [1 0 0 L2; 0 1 0 0; 0 0 1 0; 0 0 0 1];\\
+T2 = TRz2*TTx2;\\
+Tf = T1*T2;\\
+p3 = Tf(1:3,4);\\
+eje\_x\_2 = p2+Tf(1:3,1)\\
+eje\_y\_2 = p2+Tf(1:3,2)\\
+eje\_x\_3 = p3+Tf(1:3,1)\\
+eje\_y\_3 = p3+Tf(1:3,2)\\
+line([p2(1) p3(1)],[p2(2) p3(2)],[p2(3) p3(3)],'color',[0 0 0],'linewidth',3)\\
+line([p2(1) eje\_x\_2(1)],[p2(2) eje\_x\_2(2)],[p2(3) eje\_x\_2(3)],'color',[1 0 1],'linewidth',3)\\
+line([p2(1) eje\_y\_2(1)],[p2(2) eje\_y\_2(2)],[p2(3) eje\_y\_2(3)],'color',[0.5 0 1],'linewidth',3)\\
+line([p3(1) eje\_x\_3(1)],[p3(2) eje\_x\_3(2)],[p3(3) eje\_x\_3(3)],'color',[1 0 1],'linewidth',3)\\
+line([p3(1) eje\_y\_3(1)],[p3(2) eje\_y\_3(2)],[p3(3) eje\_y\_3(3)],'color',[0.5 0 1],'linewidth',3)\\
+}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{pause (0.1);\\ grid on\\
+end}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{Comentario:En este bloque lo que se realiza es el desarrollo para que logre sus movimientos el eslabon uno "Cuando inicie el ciclo for empieza el proceso de graficar el eslabon que se va a mover, deacuerdo a los grados que se llegaron a introducir y la distancia que se le propuso.\\}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{Bloque 6:\\
+if angDeg2>=0\\
+    angVec2 = 0:0.1:angRad2;\\
+else\\
+    angVec2 = 0:-0.1:angRad2;\\
+end\\
+T1 = TRz1*TTx1;}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{Comentario: Lo que realiza el bloque seis es una comparación, está menciona que si el ángulo que ingresemos es mayor a 0 entonces el eslabon girará al lado contrario de las manecillas del reloj y si este es menor girará al lado contrarío, como en caso contrario del Bloque 4, pero en este caso tendremos un segundo eslabon el cual se moverá despues de que haber introducido un valor en grados.}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{Bloque 7:\\
+for i=1:length(angVec2)\\
+clf\\
+printAxis();\\
+p2 = T1(1:3,4);\\
+eje\_x\_1 = T1(1:3,1)\\
+eje\_y\_1 = T1(1:3,2)\\
+line([p1(1) p2(1)],[p1(2) p2(2)],[p1(3) p2(3)],'color',[1 1 0],'linewidth',3)\\
+line([p1(1) eje\_x\_1(1)],[p1(2) eje\_x\_1(2)],[p1(3) eje\_x\_1(3)],'color',[1 0 1],'linewidth',3)\\
+line([p1(1) eje\_y\_1(1)],[p1(2) eje\_y\_1(2)],[p1(3) eje\_y\_1(3)],'color',[0.5 0 1],'linewidth',3)\\
+}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{TRz2 = [cos(angVec2(i)) -sin(angVec2(i)) 0 0; sin(angVec2(i)) cos(angVec2(i)) 0 0; 0 0 1 0; 0 0 0 1];\\
+TTx2 = [1 0 0 L2; 0 1 0 0; 0 0 1 0; 0 0 0 1];\\
+T2 = TRz2*TTx2;\\
+Tf = T1*T2;\\
+p3 = Tf(1:3,4);\\
+eje\_x\_2 = p2+Tf(1:3,1)\\
+eje\_y\_2 = p2+Tf(1:3,2)\\
+eje\_x\_3 = p3+Tf(1:3,1)\\
+eje\_y\_3 = p3+Tf(1:3,2)\\
+line([p2(1) p3(1)],[p2(2) p3(2)],[p2(3) p3(3)],'color',[0 0 0],'linewidth',3)\\
+line([p2(1) eje\_x\_2(1)],[p2(2) eje\_x\_2(2)],[p2(3) eje\_x\_2(3)],'color',[1 0 1],'linewidth',3)\\
+line([p2(1) eje\_y\_2(1)],[p2(2) eje\_y\_2(2)],[p2(3) eje\_y\_2(3)],'color',[0.5 0 1],'linewidth',3)\\
+line([p3(1) eje\_x\_3(1)],[p3(2) eje\_x\_3(2)],[p3(3) eje\_x\_3(3)],'color',[1 0 1],'linewidth',3)\\
+line([p3(1) eje\_y\_3(1)],[p3(2) eje\_y\_3(2)],[p3(3) eje\_y\_3(3)],'color',[0.5 0 1],'linewidth',3)\\
+}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{pause (0.1);\\ grid on\\
+end}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{Comentario:Para este último bloque "7" se repetira el ciclo for como en caso del bloque 5, pero en este caso se estará llevando la graficación de los dos eslabones en pleno movimiento y de acuerdo al número de grados que se lleguen a introducir en el eslabon 1 y en el eslabon 2, tanto como L1 y L2, se podrá visualizar estos mismo en un plot que manda directamente Matlab ya con el número de grados y distancia que tendran los eslabones en la animación.}
+\end{flushleft}
+
+\end{document}
+\end{document}
